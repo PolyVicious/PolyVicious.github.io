@@ -1,359 +1,599 @@
 <!DOCTYPE html>
-<html lang="el">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PolySKG - Άμεση Αγορά Μεταχειρισμένου Hardware</title>
-    <style>
-        /* General Site Styling */
-        :root {
-            --bg-dark: #121212;
-            --bg-card: #1f1f1f;
-            --text-primary: #ffffff;
-            --text-secondary: #aaaaaa;
-            --accent: #26b1d1; /* For main buttons/links */
-            --vendora-color: #00d0b7;
-            --vinted-color: #26b1d1;
-            --skoop-color: #ff6600;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GPU Deals — Buy & Sell Graphics Cards</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --surface2: #1a1a24;
+    --accent: #00ff88;
+    --accent2: #00c4ff;
+    --accent3: #ff4060;
+    --text: #e8e8f0;
+    --muted: #6b6b80;
+    --border: rgba(255,255,255,0.07);
+  }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg-dark);
-            color: var(--text-primary);
-            line-height: 1.6;
-        }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        h1, h2, h3 { color: var(--text-primary); }
-        p { color: var(--text-secondary); }
+  html { scroll-behavior: smooth; }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
 
-        a { text-decoration: none; transition: color 0.3s ease; }
+  /* ── BACKGROUND GRID ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,255,136,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,255,136,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
 
-        /* Header */
-        header {
-            padding: 20px 0;
-            border-bottom: 1px solid #333;
-        }
-        nav .container { display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 2rem; font-weight: bold; color: var(--accent); }
-        .nav-links { list-style: none; display: flex; gap: 20px; }
-        .nav-links a { color: var(--text-secondary); font-weight: 500; }
-        .nav-links a:hover { color: var(--accent); }
+  /* ── GLOW ORBS ── */
+  .orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(120px);
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.15;
+  }
+  .orb-1 { width: 600px; height: 600px; background: var(--accent); top: -200px; right: -100px; }
+  .orb-2 { width: 400px; height: 400px; background: var(--accent2); bottom: 100px; left: -150px; }
 
-        /* Hero */
-        #hero { padding: 80px 0; text-align: center; background-color: #1a1a1a; border-bottom: 1px solid #333; }
-        #hero h1 { font-size: 3.5rem; margin-bottom: 20px; }
-        #hero p { font-size: 1.2rem; max-width: 700px; margin: 0 auto 40px auto; }
-        .btn-main { background-color: var(--accent); color: white; padding: 12px 24px; border-radius: 5px; font-weight: 600; }
-        .btn-main:hover { background-color: #1f9cb9; }
+  /* ── LAYOUT ── */
+  .wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
 
-        /* Buying Prices Section */
-        #buy-prices { padding: 60px 0; }
-        #buy-prices h2 { text-align: center; margin-bottom: 50px; }
-        
-        .price-list-wrapper { display: flex; flex-direction: column; gap: 30px; }
-        
-        .category-block { background-color: var(--bg-card); padding: 30px; border-radius: 10px; border: 1px solid #333; }
-        .category-block h3 { border-bottom: 2px solid var(--accent); padding-bottom: 10px; margin-bottom: 20px; }
+  /* ── HEADER / HERO ── */
+  header {
+    padding: 80px 0 60px;
+    position: relative;
+  }
 
-        table { width: 100%; border-collapse: collapse; color: var(--text-secondary); }
-        table th, table td { text-align: left; padding: 12px; border-bottom: 1px solid #333; }
-        table th { color: var(--text-primary); font-weight: 600; }
-        .price-col { text-align: right; color: var(--accent); font-weight: bold; }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0,255,136,0.08);
+    border: 1px solid rgba(0,255,136,0.2);
+    border-radius: 100px;
+    padding: 6px 14px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    animation: fadeDown 0.6s ease both;
+  }
+  .badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
 
-        /* Trust Section */
-        #trust { padding: 60px 0; background-color: var(--bg-card); border-top: 1px solid #333; border-bottom: 1px solid #333; }
-        .trust-points { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
-        .trust-point { text-align: center; padding: 20px; }
-        .trust-point i { font-size: 3rem; color: var(--accent); margin-bottom: 20px; display: block; }
-        .trust-point h3 { margin-bottom: 15px; }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.7); }
+  }
 
-        /* Recreating the Section from image_3.png */
-        #platform-recreation {
-            padding: 80px 0;
-            background-color: var(--bg-dark);
-            text-align: center;
-        }
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(64px, 12vw, 110px);
+    line-height: 0.92;
+    letter-spacing: 0.01em;
+    margin-bottom: 28px;
+    animation: fadeDown 0.7s 0.1s ease both;
+  }
 
-        #platform-recreation h2 {
-            font-size: 2.2rem;
-            font-weight: bold;
-            margin-bottom: 60px;
-        }
+  h1 .line-accent { color: var(--accent); display: block; }
+  h1 .line-dim { color: var(--muted); display: block; }
 
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            max-width: 700px;
-            margin: 0 auto 60px auto;
-        }
+  .hero-desc {
+    font-size: 17px;
+    line-height: 1.7;
+    color: #a0a0b8;
+    max-width: 520px;
+    font-weight: 300;
+    margin-bottom: 40px;
+    animation: fadeDown 0.7s 0.2s ease both;
+  }
 
-        .stat-item { padding: 10px; }
-        .stat-number { font-size: 3.5rem; font-weight: bold; line-height: 1; }
-        .stat-label { font-size: 0.9rem; color: var(--text-secondary); margin-top: 10px; text-transform: uppercase; letter-spacing: 1px; }
+  .hero-desc strong {
+    color: var(--text);
+    font-weight: 600;
+  }
 
-        .stat-item-1 .stat-number { color: #8e44ad; } /* Example color matching from image */
-        .stat-item-2 .stat-number { color: #7f8c8d; } /* Example color matching from image */
-        .stat-item-3 .stat-number { color: #e0ac1a; } /* Example color matching from image */
+  /* ── STATS STRIP ── */
+  .stats {
+    display: flex;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 72px;
+    background: var(--surface);
+    animation: fadeDown 0.7s 0.3s ease both;
+  }
 
-        .platform-desc {
-            max-width: 750px;
-            margin: 0 auto 60px auto;
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-        }
+  .stat {
+    flex: 1;
+    padding: 20px 24px;
+    border-right: 1px solid var(--border);
+    text-align: center;
+  }
+  .stat:last-child { border-right: none; }
 
-        .platform-links {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 20px;
-            max-width: 600px;
-            margin: 0 auto;
-        }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    color: var(--accent);
+    line-height: 1;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .stat-label {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-family: 'DM Mono', monospace;
+  }
 
-        .platform-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            color: var(--bg-dark);
-            font-weight: bold;
-            font-size: 1.1rem;
-            padding: 15px 30px;
-            border-radius: 5px;
-        }
+  /* ── SECTION TITLE ── */
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    max-width: 60px;
+    height: 1px;
+    background: var(--accent);
+    opacity: 0.4;
+  }
 
-        /* Color-coding derived from image_3.png */
-        .btn-vinted { background-color: var(--vinted-color); color: #fff; }
-        .btn-vinted:hover { background-color: #1f9cb9; }
-        .btn-vendora { background-color: var(--vendora-color); color: #fff; }
-        .btn-vendora:hover { background-color: #00b6a1; }
-        .btn-skoop { background-color: var(--skoop-color); color: #fff; }
-        .btn-skoop:hover { background-color: #e65c00; }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(36px, 6vw, 54px);
+    letter-spacing: 0.02em;
+    margin-bottom: 12px;
+    line-height: 1;
+  }
 
-        /* Icons - using placeholders or simple text, you can add FontAwesome if you like */
-        .icon-placeholder { font-style: normal; font-weight: bold; }
+  .section-sub {
+    font-size: 15px;
+    color: var(--muted);
+    margin-bottom: 40px;
+    font-weight: 300;
+  }
 
-        /* Contact Section */
-        #contact { padding: 60px 0; background-color: #1a1a1a; border-top: 1px solid #333; text-align: center; }
-        #contact h2 { margin-bottom: 20px; }
-        .contact-methods { display: flex; flex-direction: column; gap: 15px; max-width: 300px; margin: 0 auto; }
-        .btn-contact { background-color: #444; border: 1px solid #555; display: block; }
-        .btn-contact:hover { border-color: var(--accent); color: var(--accent); }
+  /* ── WHAT I DO ── */
+  .what-i-do {
+    margin-bottom: 80px;
+  }
 
-        /* Footer */
-        footer { padding: 30px 0; border-top: 1px solid #333; text-align: center; font-size: 0.9rem; color: var(--text-secondary); }
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+  }
 
-        /* Mobile Responsive adjustments */
-        @media (max-width: 768px) {
-            #hero h1 { font-size: 2.2rem; }
-            .nav-links { display: none; } /* Simplicity for mobile */
-            .stats-grid { grid-template-columns: 1fr; gap: 30px; }
-            .platform-links { grid-template-columns: 1fr; }
-            table th:nth-child(2), table td:nth-child(2) { display: none; } /* Hide descriptions on mobile */
-        }
-    </style>
+  .feature-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px 24px;
+    transition: border-color 0.3s, transform 0.3s, background 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .feature-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(0,255,136,0.04) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .feature-card:hover::before { opacity: 1; }
+  .feature-card:hover {
+    border-color: rgba(0,255,136,0.25);
+    transform: translateY(-3px);
+    background: var(--surface2);
+  }
+
+  .feature-icon {
+    font-size: 28px;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .feature-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 0.04em;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+
+  .feature-text {
+    font-size: 13.5px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ── PLATFORMS ── */
+  .platforms {
+    margin-bottom: 80px;
+  }
+
+  .platforms-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+  }
+
+  .platform-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 32px 24px;
+    text-align: center;
+    text-decoration: none;
+    color: var(--text);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+  }
+
+  .platform-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--card-color, var(--accent));
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+    transform-origin: left;
+  }
+  .platform-card:hover::after { transform: scaleX(1); }
+
+  .platform-card:hover {
+    border-color: rgba(255,255,255,0.15);
+    transform: translateY(-4px);
+    background: var(--surface2);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  }
+
+  .platform-logo {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    background: var(--logo-bg, rgba(0,255,136,0.1));
+    border: 1px solid var(--logo-border, rgba(0,255,136,0.2));
+    flex-shrink: 0;
+  }
+
+  .platform-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 0.06em;
+  }
+
+  .platform-desc {
+    font-size: 12.5px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .platform-cta {
+    margin-top: 4px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--card-color, var(--accent));
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .platform-cta .arrow {
+    transition: transform 0.3s;
+    display: inline-block;
+  }
+  .platform-card:hover .arrow { transform: translateX(4px); }
+
+  /* Individual platform colors */
+  .card-vinted {
+    --card-color: #09b1ba;
+    --logo-bg: rgba(9,177,186,0.1);
+    --logo-border: rgba(9,177,186,0.25);
+  }
+  .card-vendora {
+    --card-color: #ff8c00;
+    --logo-bg: rgba(255,140,0,0.1);
+    --logo-border: rgba(255,140,0,0.25);
+  }
+  .card-skroutz {
+    --card-color: #ff6900;
+    --logo-bg: rgba(255,105,0,0.1);
+    --logo-border: rgba(255,105,0,0.25);
+  }
+  .card-skoop {
+    --card-color: #a855f7;
+    --logo-bg: rgba(168,85,247,0.1);
+    --logo-border: rgba(168,85,247,0.25);
+  }
+
+  /* ── CTA BANNER ── */
+  .cta-banner {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 48px 40px;
+    text-align: center;
+    margin-bottom: 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-banner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(0,255,136,0.06) 0%, transparent 70%);
+  }
+
+  .cta-banner-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(30px, 5vw, 48px);
+    margin-bottom: 12px;
+    position: relative;
+  }
+
+  .cta-banner-text {
+    font-size: 15px;
+    color: var(--muted);
+    margin-bottom: 32px;
+    position: relative;
+    font-weight: 300;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .footer-brand {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 0.06em;
+    color: var(--accent);
+  }
+
+  .footer-note {
+    font-size: 12px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    header { padding: 48px 0 40px; }
+    .stats { flex-direction: column; }
+    .stat { border-right: none; border-bottom: 1px solid var(--border); }
+    .stat:last-child { border-bottom: none; }
+    .cta-banner { padding: 36px 24px; }
+    footer { flex-direction: column; text-align: center; }
+  }
+</style>
 </head>
 <body>
 
-    <header>
-        <nav class="container">
-            <div class="logo">PolySKG</div>
-            <ul class="nav-links">
-                <li><a href="#buy-prices">Τιμές Αγοράς</a></li>
-                <li><a href="#platform-recreation">Πουλήσεις</a></li>
-                <li><a href="#contact">Επικοινωνία</a></li>
-            </ul>
-        </nav>
-    </header>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
 
-    <section id="hero">
-        <div class="container">
-            <h1>Αγοράζουμε το παλιό σας hardware, άμεσα.</h1>
-            <p>Είστε gamer ή tech enthusiast; Θέλετε να αναβαθμίσετε και βαριέστε να περιμένετε εβδομάδες; Αγοράζουμε CPU, GPU, RAM και Motherboards στις καλύτερες reseller τιμές της αγοράς. Μετρητά την ίδια μέρα!</p>
-            <a href="#buy-prices" class="btn-main">Δείτε Τιμές Αγοράς</a>
-        </div>
-    </section>
+<div class="wrapper">
 
-    <section id="buy-prices">
-        <div class="container">
-            <h2>Τιμοκατάλογος Αγοράς (Hybrid Strategy)</h2>
-            <p style="text-align: center; max-width: 700px; margin: 0 auto 40px auto; color: var(--text-secondary);">* Οι παρακάτω τιμές είναι ενδεικτικές ("έως") και εξαρτώνται από το μοντέλο, την κατάσταση, το κουτί και την εγγύηση. Πληρώνουμε extra για premium GPU models (ROG Strix, Suprim).</p>
-            
-            <div class="price-list-wrapper">
-                
-                <div class="category-block">
-                    <h3>Graphics Cards (GPUs) - Έως</h3>
-                    <table>
-                        <tr>
-                            <th>Σειρά / Μοντέλο</th>
-                            <th>Σημειώσεις</th>
-                            <th class="price-col">Τιμή (Έως €)</th>
-                        </tr>
-                        <tr>
-                            <td>NVIDIA RTX 4080 / 4080 Super</td>
-                            <td>Οποιοδήποτε Μοντέλο</td>
-                            <td class="price-col">€720</td>
-                        </tr>
-                        <tr>
-                            <td>NVIDIA RTX 4070 Ti / Ti Super</td>
-                            <td>Οποιοδήποτε Μοντέλο</td>
-                            <td class="price-col">€510</td>
-                        </tr>
-                        <tr>
-                            <td>NVIDIA RTX 3080 10GB/12GB</td>
-                            <td>LHR / non-LHR</td>
-                            <td class="price-col">€300</td>
-                        </tr>
-                        <tr>
-                            <td>AMD RX 7900 XTX / XT</td>
-                            <td>Reference / AIB</td>
-                            <td class="price-col">€650</td>
-                        </tr>
-                    </table>
-                </div>
+  <!-- HERO -->
+  <header>
+    <div class="badge">⚡ GPU Marketplace</div>
+    <h1>
+      <span class="line-accent">GPU</span>
+      <span>DEALS</span>
+      <span class="line-dim">RESELLER</span>
+    </h1>
+    <p class="hero-desc">
+      I buy and resell <strong>graphics cards</strong> — from budget workhorses to high-end beasts.
+      Every card is tested, verified, and listed at a fair price.
+      Find me on any of the platforms below.
+    </p>
+  </header>
 
-                <div class="category-block">
-                    <h3>Processors (CPUs) - Έως</h3>
-                    <table>
-                        <tr>
-                            <th>Σειρά / Μοντέλο</th>
-                            <th>Socket</th>
-                            <th class="price-col">Τιμή (Έως €)</th>
-                        </tr>
-                        <tr>
-                            <td>Intel Core i9-14900K / KF</td>
-                            <td>LGA1700</td>
-                            <td class="price-col">€370</td>
-                        </tr>
-                        <tr>
-                            <td>AMD Ryzen 7 7800X3D</td>
-                            <td>AM5</td>
-                            <td class="price-col">€280</td>
-                        </tr>
-                    </table>
-                </div>
+  <!-- STATS -->
+  <div class="stats reveal">
+    <div class="stat">
+      <span class="stat-num">100+</span>
+      <span class="stat-label">GPUs Sold</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">4</span>
+      <span class="stat-label">Platforms</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">✓</span>
+      <span class="stat-label">All Tested</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">GR</span>
+      <span class="stat-label">Based in Greece</span>
+    </div>
+  </div>
 
-                <div class="category-block">
-                    <h3>Motherboards (Generic Chipsets)</h3>
-                    <table>
-                        <tr>
-                            <th>Chipset</th>
-                            <th>Κατηγορία</th>
-                            <th class="price-col">Τιμή (€)</th>
-                        </tr>
-                        <tr>
-                            <td>Intel Z790 / Z890</td>
-                            <td>High-End</td>
-                            <td class="price-col">€130</td>
-                        </tr>
-                        <tr>
-                            <td>Intel B760 / B860</td>
-                            <td>Mid-Range</td>
-                            <td class="price-col">€70</td>
-                        </tr>
-                        <tr>
-                            <td>AMD X670 / X670E / X870</td>
-                            <td>High-End</td>
-                            <td class="price-col">€160</td>
-                        </tr>
-                        <tr>
-                            <td>AMD B650 / B650E</td>
-                            <td>Mid-Range</td>
-                            <td class="price-col">€85</td>
-                        </tr>
-                    </table>
-                </div>
+  <!-- WHAT I DO -->
+  <section class="what-i-do reveal">
+    <div class="section-label">About</div>
+    <div class="section-title">What I Do</div>
+    <p class="section-sub">Sourcing quality hardware so you don't have to.</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <span class="feature-icon">🔍</span>
+        <div class="feature-title">Sourced & Tested</div>
+        <p class="feature-text">Every GPU I sell is personally sourced, stress-tested, and verified before listing. No guessing games.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">💰</span>
+        <div class="feature-title">Fair Pricing</div>
+        <p class="feature-text">I keep margins honest. You get a quality card at a price that makes sense — not inflated, not sketchy.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">📦</span>
+        <div class="feature-title">Safe Shipping</div>
+        <p class="feature-text">Carefully packaged for safe delivery. Tracked shipping on all orders, across Greece and beyond.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">🎮</span>
+        <div class="feature-title">All Tiers</div>
+        <p class="feature-text">Budget cards for casual builds, mid-range for gamers, high-end for creators and professionals.</p>
+      </div>
+    </div>
+  </section>
 
-            </div> </div>
-    </section>
+  <!-- PLATFORMS -->
+  <section class="platforms reveal">
+    <div class="section-label">Listings</div>
+    <div class="section-title">Find Me Here</div>
+    <p class="section-sub">Browse my current stock on any of these platforms.</p>
+    <div class="platforms-grid">
 
-    <section id="trust">
-        <div class="container">
-            <div class="trust-points">
-                <div class="trust-point">
-                    <i>€</i>
-                    <h3>Μετρητά την Ίδια Μέρα</h3>
-                    <p>Ξεχάστε τα "reserve" και τις ακυρώσεις. Σας πληρώνουμε με IRIS, Revolut ή Τραπεζική Μεταφορά μόλις παραλάβουμε και ελέγξουμε.</p>
-                </div>
-                <div class="trust-point">
-                    <i>✓</i>
-                    <h3>Αγορά Πακέτων</h3>
-                    <p>Έχετε CPU+Mobo+RAM; Τα αγοράζουμε όλα μαζί ως bundle. Γλυτώνετε ταλαιπωρία και έξοδα αποστολής.</p>
-                </div>
-                <div class="trust-point">
-                    <i>★</i>
-                    <h3>Εγγυημένος Έλεγχος</h3>
-                    <p>Δεν ψάχνουμε αφορμές για lowballing. Κάνουμε δίκαιο, επαγγελματικό έλεγχο στο hardware σας.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+      <a href="https://www.vinted.gr" target="_blank" rel="noopener" class="platform-card card-vinted">
+        <div class="platform-logo">👗</div>
+        <div class="platform-name">Vinted</div>
+        <p class="platform-desc">My Vinted store — secondhand marketplace with buyer protection.</p>
+        <div class="platform-cta">View listings <span class="arrow">→</span></div>
+      </a>
 
-    <section id="platform-recreation">
-        <div class="container">
-            <h2>Αξιόπιστος Πωλητής σε Vendora, Vinted & Skroutz Skoop</h2>
-            
-            <div class="stats-grid">
-                <div class="stat-item stat-item-1">
-                    <div class="stat-number">200+</div>
-                    <div class="stat-label">ΠΩΛΗΣΕΙΣ</div>
-                </div>
-                <div class="stat-item stat-item-2">
-                    <div class="stat-number">190+</div>
-                    <div class="stat-label">ΘΕΤΙΚΕΣ ΑΞΙΟΛΟΓΗΣΕΙΣ</div>
-                </div>
-                <div class="stat-item stat-item-3">
-                    <div class="stat-number">98%</div>
-                    <div class="stat-label">ΜΕΣΟΣ ΟΡΟΣ ΑΞΙΟΛΟΓΗΣΕΙΣ</div>
-                </div>
-            </div>
+      <a href="https://www.vendora.gr" target="_blank" rel="noopener" class="platform-card card-vendora">
+        <div class="platform-logo">🛒</div>
+        <div class="platform-name">Vendora</div>
+        <p class="platform-desc">Greek C2C marketplace — fast local deals and easy messaging.</p>
+        <div class="platform-cta">View listings <span class="arrow">→</span></div>
+      </a>
 
-            <p class="platform-desc">
-                Μετά από χρόνια επιτυχημένων πωλήσεων σε Vendora, Vinted και Skoop, δημιούργησα το PolySKG για έναν λόγο: Να προσφέρω το ίδιο ελεγμένο hardware, αλλά χωρίς τις προμήθειες των πλατφορμών. Το αποτέλεσμα; Καλύτερες τιμές για εσάς, με την ίδια εγγυημένη ασφάλεια.
-            </p>
+      <a href="https://www.skroutz.gr" target="_blank" rel="noopener" class="platform-card card-skroutz">
+        <div class="platform-logo">🔎</div>
+        <div class="platform-name">Skroutz</div>
+        <p class="platform-desc">Greece's biggest price comparison & marketplace platform.</p>
+        <div class="platform-cta">View listings <span class="arrow">→</span></div>
+      </a>
 
-            <div class="platform-links">
-                <a href="#" class="platform-btn btn-vinted">
-                    <span class="icon-placeholder">Vin</span> Vinted
-                </a>
-                <a href="#" class="platform-btn btn-vendora">
-                    <span class="icon-placeholder">Ven</span> Vendora
-                </a>
-                <a href="#" class="platform-btn btn-skoop">
-                    <span class="icon-placeholder">Sko</span> Skoop
-                </a>
-            </div>
-        </div>
-    </section>
+      <a href="https://www.skoop.gr" target="_blank" rel="noopener" class="platform-card card-skoop">
+        <div class="platform-logo">⚡</div>
+        <div class="platform-name">Skoop</div>
+        <p class="platform-desc">Dedicated tech & electronics secondhand marketplace.</p>
+        <div class="platform-cta">View listings <span class="arrow">→</span></div>
+      </a>
 
-    <section id="contact">
-        <div class="container">
-            <h2>Έτοιμοι να πουλήσετε;</h2>
-            <p>Στείλτε μας ένα μήνυμα με το hardware που έχετε (Μοντέλο, Κατάσταση, Αν υπάρχει κουτί/εγγύηση) και θα σας απαντήσουμε άμεσα με μια προσφορά.</p>
-            <div class="contact-methods">
-                <a href="mailto:info@polyskg.gr" class="btn-main btn-contact">✉ Email info@polyskg.gr</a>
-                <p style="font-size: 0.9rem; color: #777;">Ή στείλτε μας στο Viber/WhatsApp στο:</p>
-                <div class="logo" style="color: var(--text-primary); font-size: 1.5rem;">+30 690 0000 000</div>
-            </div>
-        </div>
-    </section>
+    </div>
+  </section>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2026 PolySKG Hardware Buying. Όλα τα δικαιώματα διατηρούνται.</p>
-            <p>PolyVicious / polyskg.gr</p>
-        </div>
-    </footer>
+  <!-- CTA -->
+  <div class="cta-banner reveal">
+    <div class="cta-banner-title">Looking for a specific GPU?</div>
+    <p class="cta-banner-text">Don't see what you need? Message me on any platform and I'll let you know when it comes in.</p>
+  </div>
 
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-brand">GPU Deals</div>
+    <div class="footer-note">// independent reseller · greece · all cards tested</div>
+  </footer>
+
+</div>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Parallax on orbs
+  document.addEventListener('mousemove', e => {
+    const x = (e.clientX / window.innerWidth - 0.5) * 20;
+    const y = (e.clientY / window.innerHeight - 0.5) * 20;
+    document.querySelector('.orb-1').style.transform = `translate(${x}px, ${y}px)`;
+    document.querySelector('.orb-2').style.transform = `translate(${-x}px, ${-y}px)`;
+  });
+</script>
 </body>
 </html>
