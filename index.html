@@ -39,7 +39,18 @@
     min-height: 100vh;
     overflow-x: hidden;
   }
+  /* ── TERMINAL CURSOR BLINK ── */
+  .blinking-cursor {
+    font-weight: bold;
+    color: var(--text); 
+    animation: blink 1s step-end infinite;
+    margin-left: 4px;
+  }
 
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
   /* ── BACKGROUND GRID ── */
   body::before {
     content: '';
@@ -464,14 +475,14 @@
 <div class="wrapper">
 
   <header>
-    <div class="badge">PolySKG</div>
-    <h1>
-      <span class="line-accent">ΑΝΑΚΑΤΑΣΚΕΥΗ</span>
-      <span>ΕΛΕΓΧΟΣ</span>
-      <span class="line-dim">ΑΠΟΔΟΣΗ</span> 
+    <div class="badge">sys.status == online</div>
+    <h1 style="font-family: 'DM Mono', monospace; font-size: clamp(32px, 7vw, 64px); line-height: 1.1; text-transform: uppercase;">
+      <span style="color: var(--muted);">>_</span> POLYSKG<br>
+      <span style="color: var(--muted);">>_</span> THERMALS: <span style="color: var(--accent);">STABLE</span><br>
+      <span style="color: var(--muted);">>_</span> HARDWARE: <span style="color: var(--accent);">VERIFIED</span><span class="blinking-cursor">█</span>
     </h1>
-    <p class="hero-desc">
-      Δεν είμαι απλά ένα σημείο πώλησης. Παίρνω μεταχειρισμένες κάρτες γραφικών και τις επαναφέρουμε σε εργοστασιακή κατάσταση μέσω deep clean, repasting και stress-testing.
+    <p class="hero-desc" style="margin-top: 32px;">
+      Πίσω από κάθε κάρτα βρίσκομαι αποκλειστικά εγώ. Τις λύνω, τις καθαρίζω, ανανεώνω την πάστα και τις στρεσάρω για να σιγουρευτώ για τις θερμοκρασίες τους. Παραλαμβάνεις hardware έτοιμο για gaming
     </p>
   </header>
 
@@ -492,7 +503,7 @@
 
   <section class="what-i-do reveal">
     <div class="section-label">Σχετικα</div>
-    <div class="section-title">Τι Κανω</div>
+    <div class="section-title">Ο Σκοπός Μου</div>
     <p class="section-sub">Βρίσκω ποιοτικό hardware για να μη χρειάζεται να ψάχνετε εσείς.</p>
     <div class="features-grid">
       <div class="feature-card">
@@ -515,7 +526,7 @@
 
   <section class="platforms reveal">
     <div class="section-label">Αγγελιες</div>
-    <div class="section-title">Βρειτε Με Εδω</div>
+    <div class="section-title">Βρείτε με εδώ</div>
     <p class="section-sub">Δείτε το τρέχον απόθεμά μου σε οποιαδήποτε από αυτές τις πλατφόρμες.</p>
     <div class="platforms-grid">
 
